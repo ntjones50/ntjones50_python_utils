@@ -23,7 +23,7 @@ def test_set_df_series_dtypes():
                     'boolean_1': [True,None,False],
                     'float64_1': [1.1,None,3.3],
                     'int64_1': [1,2,3],
-                    'datetime64_ns 1': ['1/1/2025',None, '2/2/2028'],
+                    'datetime64_us 1': ['1/1/2025',None, '2/2/2028'],
                     'int32': [1,2,3]}
     test_df = df(test_df_dict)
     for i in test_df.columns:
@@ -35,7 +35,7 @@ def test_set_df_series_dtypes():
               'boolean_1': 'boolean',
               'float64_1': 'float64',
               'int64_1': 'int64',
-              'datetime64_ns 1': 'datetime64[ns]'}
+              'datetime64_us 1': 'datetime64[us]'}
 
     # Define solution dataframe
     sol_df = test_df.copy()
@@ -44,7 +44,7 @@ def test_set_df_series_dtypes():
     sol_df['boolean_1'] = sol_df['boolean_1'].astype('boolean')
     sol_df['float64_1'] = sol_df['float64_1'].astype('float64')
     sol_df['int64_1'] = sol_df['int64_1'].astype('int64')
-    sol_df['datetime64_ns 1'] = pd.to_datetime(sol_df['datetime64_ns 1'])
+    sol_df['datetime64_us 1'] = pd.to_datetime(sol_df['datetime64_us 1'])
 
     #---------------------------------
     # Test user input errors
@@ -78,7 +78,7 @@ def test_set_df_series_dtypes():
     with pytest.raises(Exception) as e:
         set_df_series_dtypes(test_df, {'object_1': 'int32'})
     assert str(e.value) ==  "All values in in_dtypes_dict need to be either: object, string, boolean, " \
-                            "float64, int64, datetime64[ns]"
+                            "float64, int64, datetime64[us]"
     #---------------------------------
 
     # Test full output dataframe match
@@ -94,5 +94,5 @@ def test_set_df_series_dtypes():
     assert comp_df_2['boolean_1'].dtype == 'boolean'
     assert comp_df_2['float64_1'].dtype == 'float64'
     assert comp_df_2['int64_1'].dtype == 'int64'
-    assert comp_df_2['datetime64_ns 1'].dtype == 'datetime64[ns]'
+    assert comp_df_2['datetime64_us 1'].dtype == 'datetime64[us]'
     assert comp_df_2['int32'].dtype == 'object'
